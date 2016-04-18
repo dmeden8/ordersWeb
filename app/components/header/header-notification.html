@@ -1,0 +1,10 @@
+<ul class="nav navbar-top-links navbar-right" (click)="$event.preventDefault()">
+  <li dropdown (on-toggle)="toggled($event)">
+    <br>
+    <ul>
+      <li><a [routerLink]="['Login']" (click)="logout()" href="#"><i class="fa fa-sign-out fa-fw"></i> Odjava</a>
+      </li>
+    </ul>
+  </li>
+</ul>
+

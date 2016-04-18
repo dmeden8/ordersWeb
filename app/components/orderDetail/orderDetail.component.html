@@ -1,0 +1,100 @@
+
+
+<wrapper>
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">Narudžbe</h1>
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+    <!-- /.row -->
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Pojedinosti narudžbe
+                </div>
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+                    <div class="table-responsive">
+
+                        <div *ngIf="order.status == 'N'">
+                            <button (click)="changeOrderStatus('I')" class="btn btn-warning">Označi kao pregledano</button>
+                        </div>
+                        <div *ngIf="order.status == 'I'">
+                            <button (click)="changeOrderStatus('P')" class="btn btn-info">Pokreni obradu</button>
+                        </div>
+                        <div *ngIf="order.status == 'P'">
+                            <button (click)="changeOrderStatus('F')" class="btn btn-success">Završi narudžbu</button>
+                        </div>
+
+                        <br>
+
+                        <div *ngIf="order.status == 'N'">
+                            <div class="alert alert-danger">NOVO</div>
+                        </div>
+                        <div *ngIf="order.status == 'I'">
+                            <div class="alert alert-warning">PREGLEDANO</div>
+                        </div>
+                        <div *ngIf="order.status == 'P'">
+                            <div class="alert alert-info">U OBRADI</div>
+                        </div>
+                        <div *ngIf="order.status == 'F'">
+                            <div class="alert alert-success">ZAVRŠENO</div>
+                        </div>
+
+                        <br>
+
+                        <div class="col-lg-4">
+                            <div class="well">
+                                <h4>Podaci o narudžbi</h4>
+                                <p><b>Korisnik:</b> {{order.userName}}</p>
+                                <p><b>Vrijeme:</b> {{order.creationTime}}</p>
+                                <p><b>Ukupna cijena:</b> {{order.totalPrice}}</p>
+                            </div>
+                        </div>
+
+
+                        <br>
+
+                        <input *ngIf="config.filtering" placeholder="Filter"
+                               [ngTableFiltering]="config.filtering"
+                               (tableChanged)="onChangeTable(config)"/>
+
+
+                        <ngTable [config]="config.sorting"
+                               (tableChanged)="onChangeTable(config)"
+                               [rows]="rows" [columns]="columns">
+
+                        </ngTable>
+
+                        <pagination *ngIf="config.paging"
+                                    class="pagination-sm"
+                                    [(ngModel)]="page"
+                                    [totalItems]="length"
+                                    [itemsPerPage]="itemsPerPage"
+                                    [maxSize]="maxSize"
+                                    [boundaryLinks]="true"
+                                    [rotate]="false"
+                                    (pageChanged)="onChangeTable(config, $event)"
+                                    (numPages)="numPages = $event">
+                        </pagination>
+
+                        <pre *ngIf="config.paging" class="card card-block card-header">Stranica: {{page}} / {{numPages}}</pre>
+
+                        <button (click)="goBack()" class="btn btn-primary">Natrag</button>
+
+                    </div>
+
+                </div>
+                <!-- /.panel-body -->
+            </div>
+            <!-- /.panel -->
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+    <!-- /.row -->
+</wrapper>
+
+
+

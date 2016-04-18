@@ -1,0 +1,81 @@
+
+
+<wrapper>
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">Proizvodi</h1>
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+    <!-- /.row -->
+    <div class="row">
+
+        <div *ngFor="#category of childCategories">
+
+            <div class="col-lg-4">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        {{category.name}}
+                    </div>
+                    <div class="panel-body">
+                        <button (click)="enter(category.categoryId, category.hasChildren)"><img src={{category.imageUrl}} style="max-width:100%;max-height:100%;"></button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+
+        <div *ngIf="categoryId == 1" class="col-lg-12">
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Popis svih proizvoda
+                </div>
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <input *ngIf="config.filtering" placeholder="Pretraga po nazivu"
+                               [ngTableFiltering]="config.filtering"
+                               (tableChanged)="onChangeTable(config)"/>
+
+                        <br><br>
+
+                        <ngTable [config]="config.sorting"
+                                 (tableChanged)="onChangeTable(config)"
+                                 [rows]="rows" [columns]="columns">
+                        </ngTable>
+
+                        <pagination *ngIf="config.paging"
+                                    class="pagination-sm"
+                                    [(ngModel)]="page"
+                                    [totalItems]="length"
+                                    [itemsPerPage]="itemsPerPage"
+                                    [maxSize]="maxSize"
+                                    [boundaryLinks]="true"
+                                    [rotate]="false"
+                                    (pageChanged)="onChangeTable(config, $event)"
+                                    (numPages)="numPages = $event">
+                        </pagination>
+
+                        <pre *ngIf="config.paging" class="card card-block card-header">Stranica: {{page}} / {{numPages}}</pre>
+                    </div>
+
+                </div>
+                <!-- /.panel-body -->
+            </div>
+            <!-- /.panel -->
+        </div>
+
+       <!-- /.col-lg-12 -->
+    </div>
+
+    <br>
+
+    <button *ngIf="categoryId != 1" (click)="goBack()" class="btn btn-primary">Natrag</button>
+    <!-- /.row -->
+</wrapper>
+
+
+

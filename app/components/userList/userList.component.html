@@ -1,0 +1,64 @@
+
+
+<wrapper>
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">Korisnici</h1>
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+    <!-- /.row -->
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Popis korisnika
+                </div>
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+                    <div class="table-responsive">
+
+                        <button (click)="refresh()" class="btn btn-primary">Osvježi</button>
+
+                        <br><br>
+
+                        <input *ngIf="config.filtering" placeholder="Pretraga po imenu obrta"
+                               [ngTableFiltering]="config.filtering"
+                               (tableChanged)="onChangeTable(config)"/>
+
+                        <br><br>
+
+
+                        <ngTable [config]="config.sorting"
+                               (tableChanged)="onChangeTable(config)"
+                               [rows]="rows" [columns]="columns">
+
+                        </ngTable>
+
+                        <pagination *ngIf="config.paging"
+                                    class="pagination-sm"
+                                    [(ngModel)]="page"
+                                    [totalItems]="length"
+                                    [itemsPerPage]="itemsPerPage"
+                                    [maxSize]="maxSize"
+                                    [boundaryLinks]="true"
+                                    [rotate]="false"
+                                    (pageChanged)="onChangeTable(config, $event)"
+                                    (numPages)="numPages = $event">
+                        </pagination>
+
+                        <pre *ngIf="config.paging" class="card card-block card-header">Stranica: {{page}} / {{numPages}}</pre>
+                    </div>
+
+                </div>
+                <!-- /.panel-body -->
+            </div>
+            <!-- /.panel -->
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+    <!-- /.row -->
+</wrapper>
+
+
+
