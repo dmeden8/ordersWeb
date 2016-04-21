@@ -18,9 +18,12 @@
                                            [(ngModel)]="model.password"
                                            ngControl="password" id="password">
                                 </div>
-                                <input class="btn btn-lg btn-success btn-block" type="submit" value="Prijava">
+                                <input class="btn btn-lg btn-info btn-block" type="submit" value="Prijava">
                             </fieldset>
                         </form>
+                        <div *ngIf="loginOk == false">
+                            <p style="color:red; text-align:center">Neispravni podaci</p>
+                        </div>
                     </div>
                 </div>
             </div>

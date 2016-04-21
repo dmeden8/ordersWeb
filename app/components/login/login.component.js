@@ -1,6 +1,4 @@
-System.register(['angular2/core', 'angular2/common', "angular2/http", "angular2/router", "../../services/user.service", "../../data/userAccount"], function(exports_1, context_1) {
-    "use strict";
-    var __moduleName = context_1 && context_1.id;
+System.register(['angular2/core', 'angular2/common', "angular2/http", "angular2/router", "../../services/user.service", "../../data/userAccount"], function(exports_1) {
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -38,6 +36,7 @@ System.register(['angular2/core', 'angular2/common', "angular2/http", "angular2/
                     this._userService = _userService;
                     this._router = _router;
                     this.model = new userAccount_1.UserAccount('', '');
+                    this.loginOk = true;
                 }
                 LoginComponent.prototype.onSubmit = function () {
                     var _this = this;
@@ -48,6 +47,7 @@ System.register(['angular2/core', 'angular2/common', "angular2/http", "angular2/
                         _this._router.navigate(['Orders']);
                     }, function (err) {
                         _this._router.navigate(['Login']);
+                        _this.loginOk = false;
                     });
                 };
                 LoginComponent.prototype.ngOnInit = function () {
@@ -62,7 +62,7 @@ System.register(['angular2/core', 'angular2/common', "angular2/http", "angular2/
                     __metadata('design:paramtypes', [user_service_1.UserService, router_1.Router])
                 ], LoginComponent);
                 return LoginComponent;
-            }());
+            })();
             exports_1("LoginComponent", LoginComponent);
         }
     }

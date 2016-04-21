@@ -22,6 +22,7 @@ import {UserAccount} from "../../data/userAccount";
 export class LoginComponent implements OnInit {
 
     model = new UserAccount('','');
+    loginOk = true;
 
     constructor(
         private _userService: UserService,
@@ -38,6 +39,7 @@ export class LoginComponent implements OnInit {
                 },
                 (err) => {
                     this._router.navigate(['Login']);
+                    this.loginOk = false;
                 }
             );
     }
