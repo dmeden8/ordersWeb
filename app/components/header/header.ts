@@ -12,6 +12,7 @@ import {MyResourcesService} from "../../resources";
   directives: [Dropdown, DropdownMenu, DropdownToggle, ROUTER_DIRECTIVES, CORE_DIRECTIVES],
   viewProviders: [Dropdown, DropdownMenu, DropdownToggle, ElementRef]
 })
+
 export class HeaderNotification {
 
   constructor(private _router: Router) {}

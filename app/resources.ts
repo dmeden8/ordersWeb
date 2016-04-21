@@ -3,7 +3,7 @@ import {Injectable} from "angular2/core";
 @Injectable()
 export class MyResourcesService {
 
-    private restEndpoint = 'http://localohost:8088/' ;
+    private restEndpoint = 'https://localhost:8088/' ;
     private tenantId = '1';
     private rootCategoryId = '1';
     private ordersIntervalRefresh = 60000;
