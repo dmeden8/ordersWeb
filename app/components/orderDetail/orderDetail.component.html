@@ -17,19 +17,7 @@
                 <!-- /.panel-heading -->
                 <div class="panel-body">
                     <div class="table-responsive">
-
-                        <div *ngIf="order.status == 'N'">
-                            <button (click)="changeOrderStatus('I')" class="btn btn-warning">Označi kao pregledano</button>
-                        </div>
-                        <div *ngIf="order.status == 'I'">
-                            <button (click)="changeOrderStatus('P')" class="btn btn-info">Pokreni obradu</button>
-                        </div>
-                        <div *ngIf="order.status == 'P'">
-                            <button (click)="changeOrderStatus('F')" class="btn btn-success">Završi narudžbu</button>
-                        </div>
-
-                        <br>
-
+                        
                         <div *ngIf="order.status == 'N'">
                             <div class="alert alert-danger">NOVO</div>
                         </div>
@@ -41,6 +29,18 @@
                         </div>
                         <div *ngIf="order.status == 'F'">
                             <div class="alert alert-success">ZAVRŠENO</div>
+                        </div>
+
+                        <br>
+
+                        <div *ngIf="order.status == 'N'">
+                            <button (click)="changeOrderStatus('I')" class="btn btn-warning">Označi kao pregledano</button>
+                        </div>
+                        <div *ngIf="order.status == 'I'">
+                            <button (click)="changeOrderStatus('P')" class="btn btn-info">Pokreni obradu</button>
+                        </div>
+                        <div *ngIf="order.status == 'P'">
+                            <button (click)="changeOrderStatus('F')" class="btn btn-success">Završi narudžbu</button>
                         </div>
 
                         <br>
