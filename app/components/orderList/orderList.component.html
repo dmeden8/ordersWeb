@@ -26,6 +26,11 @@
                                [ngTableFiltering]="config.filtering"
                                (tableChanged)="onChangeTable(config)"/>
 
+                        <button (click)="filterByStatus('N')" class="btn btn-danger btn-circle"><b>NOVO</b></button>
+                        <button (click)="filterByStatus('I')" class="btn btn-warning btn-circle"><b>PREGLEDANO</b></button>
+                        <button (click)="filterByStatus('P')"class="btn btn-info btn-circle"><b>U OBRADI</b></button>
+                        <button (click)="filterByStatus('F')" class="btn btn-success btn-circle"><b>ZAVRŠENO</b></button>
+
                         <br><br>
 
                         <ngTable [config]="config.sorting"

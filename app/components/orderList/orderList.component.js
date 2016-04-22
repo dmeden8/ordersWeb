@@ -1,6 +1,4 @@
-System.register(['angular2/core', 'angular2/common', 'ng2-table/ng2-table', 'ng2-bootstrap/ng2-bootstrap', "../header/header", "angular2/router", "../../resources", "../../services/order.service", "rxjs/Observable", "./columnButtonOrder", "./columnStatusOrder"], function(exports_1, context_1) {
-    "use strict";
-    var __moduleName = context_1 && context_1.id;
+System.register(['angular2/core', 'angular2/common', 'ng2-table/ng2-table', 'ng2-bootstrap/ng2-bootstrap', "../header/header", "angular2/router", "../../resources", "../../services/order.service", "rxjs/Observable", "./columnButtonOrder", "./columnStatusOrder"], function(exports_1) {
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -82,10 +80,24 @@ System.register(['angular2/core', 'angular2/common', 'ng2-table/ng2-table', 'ng2
                     var link = ['Orders'];
                     this._router.navigate(link);
                 };
+                OrderList.prototype.filterByStatus = function (orderStatus) {
+                    this.getOrdersForStatus(this.tenantId, orderStatus);
+                    var link = ['Orders'];
+                    this._router.navigate(link);
+                };
                 OrderList.prototype.getOrdersForTenant = function (tenantId) {
                     var _this = this;
                     this.getOrdersForTenantInterval(tenantId).
                         subscribe(function (response) {
+                        _this.data = response;
+                        _this.length = _this.data.length;
+                        _this.onChangeTableInitial(_this.config, null);
+                    }, function (err) { return _this._router.navigate(['Login']); });
+                };
+                OrderList.prototype.getOrdersForStatus = function (tenantId, orderStatus) {
+                    var _this = this;
+                    return this._orderService.getOrdersForStatus(tenantId, orderStatus)
+                        .subscribe(function (response) {
                         _this.data = response;
                         _this.length = _this.data.length;
                         _this.onChangeTableInitial(_this.config, null);
@@ -172,7 +184,7 @@ System.register(['angular2/core', 'angular2/common', 'ng2-table/ng2-table', 'ng2
                     __metadata('design:paramtypes', [order_service_1.OrderService, resources_1.MyResourcesService, router_1.Router])
                 ], OrderList);
                 return OrderList;
-            }());
+            })();
             exports_1("OrderList", OrderList);
         }
     }

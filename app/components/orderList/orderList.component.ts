@@ -64,6 +64,12 @@ export class OrderList implements OnInit {
         this._router.navigate(link);
     }
 
+    filterByStatus(orderStatus: string) {
+        this.getOrdersForStatus(this.tenantId, orderStatus);
+        let link = ['Orders'];
+        this._router.navigate(link);
+    }
+
     getOrdersForTenant(tenantId: string) {
         this.getOrdersForTenantInterval(tenantId).
           subscribe(
@@ -74,6 +80,19 @@ export class OrderList implements OnInit {
             },
             (err) => this._router.navigate(['Login'])
         )
+    }
+
+
+    getOrdersForStatus(tenantId: string, orderStatus: string) {
+        return this._orderService.getOrdersForStatus(tenantId, orderStatus)
+            .subscribe(
+                (response) => {
+                    this.data = response;
+                    this.length = this.data.length;
+                    this.onChangeTableInitial(this.config, null);
+                },
+                (err) => this._router.navigate(['Login'])
+            );
     }
 
     getOrdersForTenantInterval(tenantId: string) {
@@ -119,6 +138,7 @@ export class OrderList implements OnInit {
     }
 
     changeFilter(data:any, config:any):any {
+        
         if (!config.filtering) {
             return data;
         }
