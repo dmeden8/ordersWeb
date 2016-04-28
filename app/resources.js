@@ -20,7 +20,7 @@ System.register(["angular2/core"], function(exports_1, context_1) {
         execute: function() {
             MyResourcesService = (function () {
                 function MyResourcesService() {
-                    this.restEndpoint = 'https://localhost:8088/';
+                    this.restEndpoint = 'http://localhost:8088/';
                     this.tenantId = '1';
                     this.rootCategoryId = '1';
                     this.ordersIntervalRefresh = 60000;

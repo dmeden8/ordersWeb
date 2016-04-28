@@ -32,8 +32,8 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/add/operator/toPromise'
                     this.http = http;
                     this.myService = myService;
                 }
-                OrderService.prototype.getOrderList = function (tenantId, userId) {
-                    var body = JSON.stringify({ userId: userId, tenantId: tenantId });
+                OrderService.prototype.getOrderList = function (orderFilter) {
+                    var body = JSON.stringify({ userId: orderFilter.getUserId(), tenantId: this.myService.getTenantId(), status: orderFilter.getStatus() });
                     var headers = new http_1.Headers({ 'Content-Type': 'application/json', 'x-auth-token': localStorage.getItem('id_token') });
                     var options = new http_1.RequestOptions({ headers: headers });
                     return this.http.post(this.myService.getRestEndpoint() + 'order/list', body, options)
@@ -56,14 +56,6 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/add/operator/toPromise'
                     var headers = new http_1.Headers({ 'Content-Type': 'application/json', 'x-auth-token': localStorage.getItem('id_token') });
                     var options = new http_1.RequestOptions({ headers: headers });
                     return this.http.post(this.myService.getRestEndpoint() + 'order/changestatus', body, options);
-                };
-                OrderService.prototype.getOrdersForStatus = function (tenantId, orderStatus) {
-                    var body = JSON.stringify({ tenantId: tenantId, status: orderStatus });
-                    var headers = new http_1.Headers({ 'Content-Type': 'application/json', 'x-auth-token': localStorage.getItem('id_token') });
-                    var options = new http_1.RequestOptions({ headers: headers });
-                    return this.http.post(this.myService.getRestEndpoint() + 'order/listByStatus', body, options)
-                        .map(function (res) { return res.json(); });
-                    ;
                 };
                 OrderService.prototype.handleError = function (error) {
                     console.error(error);

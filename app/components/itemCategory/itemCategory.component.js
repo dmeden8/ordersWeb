@@ -1,4 +1,4 @@
-System.register(['angular2/core', 'angular2/common', "angular2/router", 'ng2-table/ng2-table', 'ng2-bootstrap/ng2-bootstrap', "../header/header", "../../resources", "../../services/item.service", "../../services/category.service", "../itemList/columnButtonItem"], function(exports_1, context_1) {
+System.register(['angular2/core', 'angular2/common', "angular2/router", 'ng2-table/ng2-table', 'ng2-bootstrap/ng2-bootstrap', "../header/header", "../../services/item.service", "../../services/category.service", "../itemList/columnButtonItem"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['angular2/core', 'angular2/common', "angular2/router", 'ng2-tab
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, common_1, router_1, ng2_table_1, ng2_bootstrap_1, header_1, resources_1, item_service_1, category_service_1, router_2, router_3, columnButtonItem_1;
+    var core_1, common_1, router_1, ng2_table_1, ng2_bootstrap_1, header_1, item_service_1, category_service_1, router_2, router_3, columnButtonItem_1;
     var ItemCategory;
     return {
         setters:[
@@ -34,9 +34,6 @@ System.register(['angular2/core', 'angular2/common', "angular2/router", 'ng2-tab
             function (header_1_1) {
                 header_1 = header_1_1;
             },
-            function (resources_1_1) {
-                resources_1 = resources_1_1;
-            },
             function (item_service_1_1) {
                 item_service_1 = item_service_1_1;
             },
@@ -48,10 +45,9 @@ System.register(['angular2/core', 'angular2/common', "angular2/router", 'ng2-tab
             }],
         execute: function() {
             ItemCategory = (function () {
-                function ItemCategory(_itemService, _categoryService, myService, _routeParams, _router) {
+                function ItemCategory(_itemService, _categoryService, _routeParams, _router) {
                     this._itemService = _itemService;
                     this._categoryService = _categoryService;
-                    this.myService = myService;
                     this._routeParams = _routeParams;
                     this._router = _router;
                     this.rows = [];
@@ -72,13 +68,12 @@ System.register(['angular2/core', 'angular2/common', "angular2/router", 'ng2-tab
                         sorting: false,
                         filtering: { filterString: '', columnName: 'name' }
                     };
-                    this.tenantId = this.myService.getTenantId();
                     this.categoryId = this._routeParams.get('categoryId');
                     this.data = [];
                 }
                 ItemCategory.prototype.ngOnInit = function () {
-                    this.getItemsForTenant(this.tenantId);
-                    this.getChildCategories(this._routeParams.get('categoryId'), this.tenantId);
+                    this.getItems();
+                    this.getChildCategories(this._routeParams.get('categoryId'));
                 };
                 ItemCategory.prototype.goBack = function () {
                     window.history.back();
@@ -93,18 +88,18 @@ System.register(['angular2/core', 'angular2/common', "angular2/router", 'ng2-tab
                         this._router.navigate(link);
                     }
                 };
-                ItemCategory.prototype.getItemsForTenant = function (tenantId) {
+                ItemCategory.prototype.getItems = function () {
                     var _this = this;
-                    return this._itemService.getItemList(tenantId, null)
+                    return this._itemService.getItemList(null)
                         .subscribe(function (response) {
                         _this.data = response;
                         _this.length = _this.data.length;
                         _this.onChangeTableInitial(_this.config, null);
                     }, function (err) { return _this._router.navigate(['Login']); });
                 };
-                ItemCategory.prototype.getChildCategories = function (categoryId, tenantId) {
+                ItemCategory.prototype.getChildCategories = function (categoryId) {
                     var _this = this;
-                    return this._categoryService.getChildCategories(categoryId, tenantId)
+                    return this._categoryService.getChildCategories(categoryId)
                         .subscribe(function (response) {
                         _this.childCategories = response;
                         _this.onChangeTableInitial(_this.config, null);
@@ -179,7 +174,7 @@ System.register(['angular2/core', 'angular2/common', "angular2/router", 'ng2-tab
                         templateUrl: 'app/components/itemCategory/itemCategory.component.html',
                         directives: [header_1.WrapperCmp, ng2_table_1.NG_TABLE_DIRECTIVES, common_1.NgClass, common_1.NgIf, common_1.CORE_DIRECTIVES, common_1.FORM_DIRECTIVES, ng2_bootstrap_1.PAGINATION_DIRECTIVES, router_3.ROUTER_DIRECTIVES]
                     }), 
-                    __metadata('design:paramtypes', [item_service_1.ItemService, category_service_1.CategoryService, resources_1.MyResourcesService, router_2.RouteParams, router_1.Router])
+                    __metadata('design:paramtypes', [item_service_1.ItemService, category_service_1.CategoryService, router_2.RouteParams, router_1.Router])
                 ], ItemCategory);
                 return ItemCategory;
             }());

@@ -1,6 +1,4 @@
-System.register(['angular2/core', 'angular2/common', 'ng2-table/ng2-table', 'ng2-bootstrap/ng2-bootstrap', "../header/header", "angular2/router", "../../resources", "../../services/user.service", "rxjs/Observable", "./columnButtonUser", "./columnStatusUser"], function(exports_1, context_1) {
-    "use strict";
-    var __moduleName = context_1 && context_1.id;
+System.register(['angular2/core', 'angular2/common', 'ng2-table/ng2-table', 'ng2-bootstrap/ng2-bootstrap', "../header/header", "angular2/router", "../../resources", "../../services/user.service", "rxjs/Observable", "./columnButtonUser", "./columnStatusUser", "../../data/userFilter"], function(exports_1) {
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -10,7 +8,7 @@ System.register(['angular2/core', 'angular2/common', 'ng2-table/ng2-table', 'ng2
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, common_1, ng2_table_1, ng2_bootstrap_1, header_1, router_1, resources_1, user_service_1, Observable_1, columnButtonUser_1, columnStatusUser_1;
+    var core_1, common_1, ng2_table_1, ng2_bootstrap_1, header_1, router_1, resources_1, user_service_1, Observable_1, columnButtonUser_1, columnStatusUser_1, userFilter_1;
     var UserList;
     return {
         setters:[
@@ -46,6 +44,9 @@ System.register(['angular2/core', 'angular2/common', 'ng2-table/ng2-table', 'ng2
             },
             function (columnStatusUser_1_1) {
                 columnStatusUser_1 = columnStatusUser_1_1;
+            },
+            function (userFilter_1_1) {
+                userFilter_1 = userFilter_1_1;
             }],
         execute: function() {
             UserList = (function () {
@@ -71,33 +72,49 @@ System.register(['angular2/core', 'angular2/common', 'ng2-table/ng2-table', 'ng2
                         sorting: false,
                         filtering: { filterString: '', columnName: 'name' }
                     };
-                    this.tenantId = this.myService.getTenantId();
+                    this.userFilter = new userFilter_1.UserFilter();
                     this.data = [];
                 }
                 UserList.prototype.ngOnInit = function () {
-                    this.getUsersForTenant(this.tenantId);
+                    this.getUsers();
                 };
                 UserList.prototype.refresh = function () {
-                    this.getUsersForTenant(this.tenantId);
+                    this.getUsers();
                     var link = ['Users'];
                     this._router.navigate(link);
                 };
-                UserList.prototype.getUsersForTenant = function (tenantId) {
+                UserList.prototype.filterByStatus = function (userStatus) {
+                    this.getUsersForStatus(userStatus);
+                    var link = ['Users'];
+                    this._router.navigate(link);
+                };
+                UserList.prototype.getUsers = function () {
                     var _this = this;
-                    this.getUsersForTenantInterval(tenantId)
+                    this.getUsersInterval()
                         .subscribe(function (response) {
                         _this.data = response;
                         _this.length = _this.data.length;
                         _this.onChangeTableInitial(_this.config, null);
                     }, function (err) { return _this._router.navigate(['Login']); });
                 };
-                UserList.prototype.getUsersForTenantInterval = function (tenantId) {
+                UserList.prototype.getUsersForStatus = function (userStatus) {
                     var _this = this;
+                    this.userFilter.setStatus(userStatus);
+                    return this._userService.getUsers(this.userFilter)
+                        .subscribe(function (response) {
+                        _this.data = response;
+                        _this.length = _this.data.length;
+                        _this.onChangeTableInitial(_this.config, null);
+                    }, function (err) { return _this._router.navigate(['Login']); });
+                };
+                UserList.prototype.getUsersInterval = function () {
+                    var _this = this;
+                    this.userFilter.setStatus(null);
                     return Observable_1.Observable
                         .interval(this.myService.getUsersIntervalRefresh())
                         .startWith(0)
                         .switchMap(function () {
-                        return _this._userService.getUsersForTenant(tenantId);
+                        return _this._userService.getUsers(_this.userFilter);
                     });
                 };
                 UserList.prototype.changePage = function (page, data) {
@@ -172,7 +189,7 @@ System.register(['angular2/core', 'angular2/common', 'ng2-table/ng2-table', 'ng2
                     __metadata('design:paramtypes', [user_service_1.UserService, resources_1.MyResourcesService, router_1.Router])
                 ], UserList);
                 return UserList;
-            }());
+            })();
             exports_1("UserList", UserList);
         }
     }

@@ -14,9 +14,9 @@ export class ItemService {
 
     constructor (private http: Http, private myService:MyResourcesService) {}
 
-    public getItemList(tenantId: string, categoryId: string) {
+    public getItemList(categoryId: string) {
 
-        let body = JSON.stringify({ categoryId: categoryId, tenantId: tenantId });
+        let body = JSON.stringify({ categoryId: categoryId, tenantId: this.myService.getTenantId() });
         let headers = new Headers({ 'Content-Type': 'application/json' , 'x-auth-token': localStorage.getItem('id_token')});
         let options = new RequestOptions({ headers: headers });
 

@@ -26,6 +26,11 @@
                                [ngTableFiltering]="config.filtering"
                                (tableChanged)="onChangeTable(config)"/>
 
+                        <button (click)="refresh()" class="btn btn-primary btn-circle"><b>SVI</b></button>
+                        <button (click)="filterByStatus('N')" class="btn btn-warning btn-circle"><b>ČEKA NA ODOBRENJE</b></button>
+                        <button (click)="filterByStatus('A')" class="btn btn-success btn-circle"><b>AKTIVNI</b></button>
+                        <button (click)="filterByStatus('S')"class="btn btn-danger btn-circle"><b>SUSPENDIRANI</b></button>
+
                         <br><br>
 
 

@@ -1,5 +1,5 @@
 ///<reference path="../../../node_modules/angular2/ts/typings/node/node.d.ts"/>
-import {Component, View, ViewEncapsulation, OnInit} from 'angular2/core';
+import {Component, ViewEncapsulation, OnInit} from 'angular2/core';
 import {CORE_DIRECTIVES, FORM_DIRECTIVES} from 'angular2/common';
 import {RequestOptions, HTTP_PROVIDERS, Http, Headers, Response} from "angular2/http";
 import {Router} from "angular2/router";

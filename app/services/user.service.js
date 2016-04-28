@@ -42,10 +42,11 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/add/operator/toPromise'
                      .then(res => <Response>res)
                      .catch(this.handleError);*/
                 };
-                UserService.prototype.getUsersForTenant = function (tenantId) {
+                UserService.prototype.getUsers = function (userFilter) {
+                    var body = JSON.stringify({ tenantId: this.myService.getTenantId(), status: userFilter.getStatus() });
                     var headers = new http_1.Headers({ 'Content-Type': 'application/json', 'x-auth-token': localStorage.getItem('id_token') });
                     var options = new http_1.RequestOptions({ headers: headers });
-                    return this.http.post(this.myService.getRestEndpoint() + 'user/list', tenantId, options)
+                    return this.http.post(this.myService.getRestEndpoint() + 'user/list', body, options)
                         .map(function (res) { return res.json(); });
                 };
                 UserService.prototype.getUserDetails = function (userId) {

@@ -16,6 +16,7 @@ import {ColumnButtonOrder} from "../orderList/columnButtonOrder";
 import {ColumnStatusOrder} from "../orderList/columnStatusOrder";
 import {UserService} from "../../services/user.service";
 import {User} from "../../data/user";
+import {OrderFilter} from "../../data/orderFilter";
 
 
 @Component({
@@ -45,12 +46,11 @@ export class UserDetail implements OnInit {
 
 
     public data: Order[];
-    tenantId = this.myService.getTenantId();
     public user = new User('','','','','','','','','','','');
+    orderFilter = new OrderFilter();
 
     constructor(private _orderService: OrderService,
                 private _userService: UserService,
-                private myService:MyResourcesService,
                 private _routeParams: RouteParams,
                 private _router: Router) {
 
@@ -63,11 +63,15 @@ export class UserDetail implements OnInit {
 
     ngOnInit() {
         this.getUserDetails(this._routeParams.get('userId'));
-        this.getOrdersForUserAndTenant(this.tenantId, this._routeParams.get('userId'));
+        this.getOrdersForUserAndTenant(this._routeParams.get('userId'));
     }
 
-    getOrdersForUserAndTenant(tenantId:string, orderId: string) {
-         return this._orderService.getOrderList(tenantId, orderId)
+    getOrdersForUserAndTenant(userId: string) {
+
+        this.orderFilter.setStatus(null);
+        this.orderFilter.setUserId(userId);
+
+         return this._orderService.getOrderList(this.orderFilter)
             .subscribe(
                 (response) => {
                     this.data = response;

@@ -14,6 +14,7 @@ import {ColumnButtonOrder} from "./columnButtonOrder";
 import {ColumnStatusOrder} from "./columnStatusOrder";
 import {$WebSocket} from 'ng2-websocket/ng2-websocket';
 import {Response} from "angular2/http";
+import {OrderFilter} from "../../data/orderFilter";
 
 
 @Component({
@@ -44,8 +45,9 @@ export class OrderList implements OnInit {
 
 
     public data: any;
-    tenantId = this.myService.getTenantId();
     ws: $WebSocket;
+
+    orderFilter = new OrderFilter();
 
     constructor(private _orderService: OrderService,
                 private myService:MyResourcesService,
@@ -55,23 +57,23 @@ export class OrderList implements OnInit {
     }
 
     ngOnInit() {
-        this.getOrdersForTenant(this.tenantId);
+        this.getOrders();
     }
 
     refresh() {
-        this.getOrdersForTenant(this.tenantId);
+        this.getOrders();
         let link = ['Orders'];
         this._router.navigate(link);
     }
 
     filterByStatus(orderStatus: string) {
-        this.getOrdersForStatus(this.tenantId, orderStatus);
+        this.getOrdersForStatus(orderStatus);
         let link = ['Orders'];
         this._router.navigate(link);
     }
 
-    getOrdersForTenant(tenantId: string) {
-        this.getOrdersForTenantInterval(tenantId).
+    getOrders() {
+        this.getOrdersInterval().
           subscribe(
             (response) => {
                 this.data = response;
@@ -83,8 +85,12 @@ export class OrderList implements OnInit {
     }
 
 
-    getOrdersForStatus(tenantId: string, orderStatus: string) {
-        return this._orderService.getOrdersForStatus(tenantId, orderStatus)
+    getOrdersForStatus(orderStatus: string) {
+
+        this.orderFilter.setStatus(orderStatus);
+        this.orderFilter.setUserId(null);
+
+        return this._orderService.getOrderList(this.orderFilter)
             .subscribe(
                 (response) => {
                     this.data = response;
@@ -95,12 +101,17 @@ export class OrderList implements OnInit {
             );
     }
 
-    getOrdersForTenantInterval(tenantId: string) {
+
+    getOrdersInterval() {
+
+        this.orderFilter.setStatus(null);
+        this.orderFilter.setUserId(null);
+
         return Observable
             .interval(this.myService.getOrdersIntervalRefresh())
             .startWith(0)
             .switchMap(() => {
-                return this._orderService.getOrderList(tenantId, null);
+                return this._orderService.getOrderList(this.orderFilter);
          });
 
     }

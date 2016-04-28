@@ -1,4 +1,4 @@
-System.register(['angular2/core', 'angular2/common', 'ng2-table/ng2-table', 'ng2-bootstrap/ng2-bootstrap', "../header/header", "angular2/router", "../../resources", "../../services/order.service", "rxjs/Observable", "./columnButtonOrder", "./columnStatusOrder"], function(exports_1, context_1) {
+System.register(['angular2/core', 'angular2/common', 'ng2-table/ng2-table', 'ng2-bootstrap/ng2-bootstrap', "../header/header", "angular2/router", "../../resources", "../../services/order.service", "rxjs/Observable", "./columnButtonOrder", "./columnStatusOrder", "../../data/orderFilter"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['angular2/core', 'angular2/common', 'ng2-table/ng2-table', 'ng2
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, common_1, ng2_table_1, ng2_bootstrap_1, header_1, router_1, resources_1, order_service_1, Observable_1, columnButtonOrder_1, columnStatusOrder_1;
+    var core_1, common_1, ng2_table_1, ng2_bootstrap_1, header_1, router_1, resources_1, order_service_1, Observable_1, columnButtonOrder_1, columnStatusOrder_1, orderFilter_1;
     var OrderList;
     return {
         setters:[
@@ -46,6 +46,9 @@ System.register(['angular2/core', 'angular2/common', 'ng2-table/ng2-table', 'ng2
             },
             function (columnStatusOrder_1_1) {
                 columnStatusOrder_1 = columnStatusOrder_1_1;
+            },
+            function (orderFilter_1_1) {
+                orderFilter_1 = orderFilter_1_1;
             }],
         execute: function() {
             OrderList = (function () {
@@ -71,47 +74,51 @@ System.register(['angular2/core', 'angular2/common', 'ng2-table/ng2-table', 'ng2
                         sorting: false,
                         filtering: { filterString: '', columnName: 'userName' }
                     };
-                    this.tenantId = this.myService.getTenantId();
+                    this.orderFilter = new orderFilter_1.OrderFilter();
                     this.data = [];
                 }
                 OrderList.prototype.ngOnInit = function () {
-                    this.getOrdersForTenant(this.tenantId);
+                    this.getOrders();
                 };
                 OrderList.prototype.refresh = function () {
-                    this.getOrdersForTenant(this.tenantId);
+                    this.getOrders();
                     var link = ['Orders'];
                     this._router.navigate(link);
                 };
                 OrderList.prototype.filterByStatus = function (orderStatus) {
-                    this.getOrdersForStatus(this.tenantId, orderStatus);
+                    this.getOrdersForStatus(orderStatus);
                     var link = ['Orders'];
                     this._router.navigate(link);
                 };
-                OrderList.prototype.getOrdersForTenant = function (tenantId) {
+                OrderList.prototype.getOrders = function () {
                     var _this = this;
-                    this.getOrdersForTenantInterval(tenantId).
+                    this.getOrdersInterval().
                         subscribe(function (response) {
                         _this.data = response;
                         _this.length = _this.data.length;
                         _this.onChangeTableInitial(_this.config, null);
                     }, function (err) { return _this._router.navigate(['Login']); });
                 };
-                OrderList.prototype.getOrdersForStatus = function (tenantId, orderStatus) {
+                OrderList.prototype.getOrdersForStatus = function (orderStatus) {
                     var _this = this;
-                    return this._orderService.getOrdersForStatus(tenantId, orderStatus)
+                    this.orderFilter.setStatus(orderStatus);
+                    this.orderFilter.setUserId(null);
+                    return this._orderService.getOrderList(this.orderFilter)
                         .subscribe(function (response) {
                         _this.data = response;
                         _this.length = _this.data.length;
                         _this.onChangeTableInitial(_this.config, null);
                     }, function (err) { return _this._router.navigate(['Login']); });
                 };
-                OrderList.prototype.getOrdersForTenantInterval = function (tenantId) {
+                OrderList.prototype.getOrdersInterval = function () {
                     var _this = this;
+                    this.orderFilter.setStatus(null);
+                    this.orderFilter.setUserId(null);
                     return Observable_1.Observable
                         .interval(this.myService.getOrdersIntervalRefresh())
                         .startWith(0)
                         .switchMap(function () {
-                        return _this._orderService.getOrderList(tenantId, null);
+                        return _this._orderService.getOrderList(_this.orderFilter);
                     });
                 };
                 OrderList.prototype.changePage = function (page, data) {
