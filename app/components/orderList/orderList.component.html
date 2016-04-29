@@ -18,21 +18,23 @@
                 <div class="panel-body">
                     <div class="table-responsive">
 
-                        <button (click)="refresh()" class="btn btn-primary">Osvježi</button>
-
-                        <br><br>
-
-                        <input *ngIf="config.filtering" placeholder="Pretraga po korisniku"
-                               [ngTableFiltering]="config.filtering"
-                               (tableChanged)="onChangeTable(config)"/>
-
                         <button (click)="refresh()" class="btn btn-primary btn-circle"><b>SVE</b></button>
                         <button (click)="filterByStatus('N')" class="btn btn-danger btn-circle"><b>NOVO</b></button>
                         <button (click)="filterByStatus('I')" class="btn btn-warning btn-circle"><b>PREGLEDANO</b></button>
                         <button (click)="filterByStatus('P')"class="btn btn-info btn-circle"><b>U OBRADI</b></button>
                         <button (click)="filterByStatus('F')" class="btn btn-success btn-circle"><b>ZAVRŠENO</b></button>
 
+
                         <br><br>
+
+
+                        <div>
+                            <input *ngIf="config.filtering" placeholder="Pretraga po korisniku"
+                                   [ngTableFiltering]="config.filtering"
+                                   (tableChanged)="onChangeTable(config)"/>
+                        </div>
+
+                        <br>
 
                         <ngTable [config]="config.sorting"
                                (tableChanged)="onChangeTable(config)"

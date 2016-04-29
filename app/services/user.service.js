@@ -61,6 +61,13 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/add/operator/toPromise'
                     var options = new http_1.RequestOptions({ headers: headers });
                     return this.http.post(this.myService.getRestEndpoint() + 'user/changestatus', body, options);
                 };
+                UserService.prototype.countByStatus = function (userStatus) {
+                    var body = JSON.stringify({ userId: null, status: userStatus });
+                    var headers = new http_1.Headers({ 'Content-Type': 'application/json', 'x-auth-token': localStorage.getItem('id_token') });
+                    var options = new http_1.RequestOptions({ headers: headers });
+                    return this.http.post(this.myService.getRestEndpoint() + 'user/countstatus', body, options)
+                        .map(function (res) { return res.json(); });
+                };
                 UserService.prototype.handleError = function (error) {
                     console.error(error);
                     return Promise.reject(error.message || error.json().error || 'Server error');

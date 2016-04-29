@@ -1,4 +1,6 @@
-System.register(['angular2/core', 'angular2/common', 'ng2-table/ng2-table', 'ng2-bootstrap/ng2-bootstrap', "../header/header", "angular2/router", "../../resources", "../../services/user.service", "rxjs/Observable", "./columnButtonUser", "./columnStatusUser", "../../data/userFilter"], function(exports_1) {
+System.register(['angular2/core', 'angular2/common', 'ng2-table/ng2-table', 'ng2-bootstrap/ng2-bootstrap', "../header/header", "angular2/router", "../../resources", "../../services/user.service", "rxjs/Observable", "./columnButtonUser", "./columnStatusUser", "../../data/userFilter"], function(exports_1, context_1) {
+    "use strict";
+    var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -189,7 +191,7 @@ System.register(['angular2/core', 'angular2/common', 'ng2-table/ng2-table', 'ng2
                     __metadata('design:paramtypes', [user_service_1.UserService, resources_1.MyResourcesService, router_1.Router])
                 ], UserList);
                 return UserList;
-            })();
+            }());
             exports_1("UserList", UserList);
         }
     }

@@ -1,25 +1,21 @@
-import {Component, ElementRef} from 'angular2/core';
+import {Component} from 'angular2/core';
 import {CORE_DIRECTIVES} from 'angular2/common';
-import {Dropdown, DropdownMenu, DropdownToggle, Accordion} from 'ng2-bootstrap/ng2-bootstrap';
 import {ROUTER_DIRECTIVES} from 'angular2/router';
 import {Router} from "angular2/router";
 import {OnInit} from "angular2/core";
 import {MyResourcesService} from "../../resources";
+import {Injectable} from "angular2/core";
+import {Observable} from "rxjs/Observable";
+import {OrderService} from "../../services/order.service";
+import {UserService} from "../../services/user.service";
 
 @Component({
   selector: 'header-notification',
   templateUrl: 'app/components/header/header-notification.html',
-  directives: [Dropdown, DropdownMenu, DropdownToggle, ROUTER_DIRECTIVES, CORE_DIRECTIVES],
-  viewProviders: [Dropdown, DropdownMenu, DropdownToggle, ElementRef]
+  directives: [ROUTER_DIRECTIVES, CORE_DIRECTIVES]
 })
 
 export class HeaderNotification {
-
-  constructor(private _router: Router) {}
-
-  toggled(open:boolean):void {
-    console.log('Dropdown is now: ', open);
-  }
 
   logout(){
     localStorage.removeItem('id_token');
@@ -37,13 +33,64 @@ export class SidebarSearch {
 @Component({
   selector: 'sidebar',
   templateUrl: 'app/components/header/sidebar.html',
-  directives: [ROUTER_DIRECTIVES, SidebarSearch, Accordion],
+  directives: [ROUTER_DIRECTIVES, SidebarSearch],
 })
-export class Sidebar {
 
-  constructor(private myService:MyResourcesService) {}
+export class Sidebar implements OnInit {
 
+  public numOfNewOrders: any;
+  public numOfNewUsers: any;
   rootCategoryId = this.myService.getRootCategoryId;
+
+  constructor(private myService:MyResourcesService,
+              private _orderService: OrderService,
+              private _userService: UserService
+  ) {}
+
+  ngOnInit() {
+    this.countNewOrderByStatus();
+    this.countNewUserByStatus();
+  }
+
+  countNewOrderByStatus() {
+      this.countNewOrderByStatusInterval()
+        .subscribe(
+            (response) => {
+              this.numOfNewOrders = response;
+            }
+            //(err) => this._router.navigate(['Login'])
+        );
+  }
+
+  countNewOrderByStatusInterval() {
+    return Observable
+        .interval(this.myService.getOrdersIntervalRefresh())
+        .startWith(0)
+        .switchMap(() => {
+          return this._orderService.countByStatus('N');
+        });
+
+  }
+
+  countNewUserByStatus() {
+    this.countNewUserByStatusInterval()
+        .subscribe(
+            (response) => {
+              this.numOfNewUsers = response;
+            }
+            //(err) => this._router.navigate(['Login'])
+        );
+  }
+
+  countNewUserByStatusInterval() {
+    return Observable
+        .interval(this.myService.getOrdersIntervalRefresh())
+        .startWith(0)
+        .switchMap(() => {
+          return this._userService.countByStatus('N');
+        });
+
+  }
 
 }
 

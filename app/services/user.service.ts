@@ -59,6 +59,16 @@ export class UserService {
         return this.http.post(this.myService.getRestEndpoint() + 'user/changestatus',body,options);
     }
 
+    public countByStatus(userStatus: string){
+
+        let body = JSON.stringify({ userId: null, status: userStatus });
+        let headers = new Headers({ 'Content-Type': 'application/json' , 'x-auth-token': localStorage.getItem('id_token')});
+        let options = new RequestOptions({ headers: headers });
+
+        return this.http.post(this.myService.getRestEndpoint() + 'user/countstatus',body,options)
+            .map(res => <number> res.json());
+    }
+
     private handleError (error: any) {
         console.error(error);
         return Promise.reject(error.message || error.json().error || 'Server error');

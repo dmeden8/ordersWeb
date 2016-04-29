@@ -14,6 +14,7 @@ import {UserDetail} from "./components/userDetail/userDetail.component";
 import {ItemCategory} from "./components/itemCategory/itemCategory.component";
 import {CategoryService} from "./services/category.service";
 import {ItemDetail} from "./components/itemDetail/itemDetail.component";
+//import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
 
 @Component({
     selector: 'app',
@@ -29,6 +30,8 @@ import {ItemDetail} from "./components/itemDetail/itemDetail.component";
         ItemService,
         CategoryService
     ]
+    //bindings: [TranslateService],
+    //pipes: [TranslatePipe]
 })
 
 @RouteConfig([
@@ -78,5 +81,15 @@ import {ItemDetail} from "./components/itemDetail/itemDetail.component";
 
 export class AppComponent {
     title = 'Narudžbe Grga';
+
+    userLang = 'en'
+
+    /*
+    constructor(translate: TranslateService) {
+        translate.setDefaultLang('en');
+        translate.use(this.userLang );
+        translate.getTranslation(this.userLang );
+    }
+    */
 
 }

@@ -56,6 +56,16 @@ export class OrderService {
         return this.http.post(this.myService.getRestEndpoint() + 'order/changestatus',body,options);
     }
 
+    public countByStatus(orderStatus: string){
+
+        let body = JSON.stringify({ orderId: null, status: orderStatus });
+        let headers = new Headers({ 'Content-Type': 'application/json' , 'x-auth-token': localStorage.getItem('id_token')});
+        let options = new RequestOptions({ headers: headers });
+
+        return this.http.post(this.myService.getRestEndpoint() + 'order/countstatus',body,options)
+            .map(res => <number> res.json());
+    }
+
 
     private handleError (error: any) {
         console.error(error);

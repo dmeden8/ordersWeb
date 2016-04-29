@@ -12,7 +12,6 @@ import {OrderService} from "../../services/order.service";
 import {Observable} from "rxjs/Observable";
 import {ColumnButtonOrder} from "./columnButtonOrder";
 import {ColumnStatusOrder} from "./columnStatusOrder";
-import {$WebSocket} from 'ng2-websocket/ng2-websocket';
 import {Response} from "angular2/http";
 import {OrderFilter} from "../../data/orderFilter";
 
@@ -45,7 +44,6 @@ export class OrderList implements OnInit {
 
 
     public data: any;
-    ws: $WebSocket;
 
     orderFilter = new OrderFilter();
 
