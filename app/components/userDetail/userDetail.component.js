@@ -1,4 +1,4 @@
-System.register(['angular2/core', 'angular2/common', 'ng2-table/ng2-table', 'ng2-bootstrap/ng2-bootstrap', "../header/header", "angular2/router", "../../resources", "../../services/order.service", "../orderList/columnButtonOrder", "../orderList/columnStatusOrder", "../../services/user.service", "../../data/user"], function(exports_1, context_1) {
+System.register(['angular2/core', 'angular2/common', 'ng2-table/ng2-table', 'ng2-bootstrap/ng2-bootstrap', "../header/header", "angular2/router", "../../services/order.service", "../orderList/columnButtonOrder", "../orderList/columnStatusOrder", "../../services/user.service", "../../data/user", "../../data/orderFilter"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['angular2/core', 'angular2/common', 'ng2-table/ng2-table', 'ng2
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, common_1, ng2_table_1, ng2_bootstrap_1, header_1, router_1, resources_1, order_service_1, router_2, columnButtonOrder_1, columnStatusOrder_1, user_service_1, user_1;
+    var core_1, common_1, ng2_table_1, ng2_bootstrap_1, header_1, router_1, order_service_1, router_2, columnButtonOrder_1, columnStatusOrder_1, user_service_1, user_1, orderFilter_1;
     var UserDetail;
     return {
         setters:[
@@ -33,9 +33,6 @@ System.register(['angular2/core', 'angular2/common', 'ng2-table/ng2-table', 'ng2
                 router_1 = router_1_1;
                 router_2 = router_1_1;
             },
-            function (resources_1_1) {
-                resources_1 = resources_1_1;
-            },
             function (order_service_1_1) {
                 order_service_1 = order_service_1_1;
             },
@@ -50,13 +47,15 @@ System.register(['angular2/core', 'angular2/common', 'ng2-table/ng2-table', 'ng2
             },
             function (user_1_1) {
                 user_1 = user_1_1;
+            },
+            function (orderFilter_1_1) {
+                orderFilter_1 = orderFilter_1_1;
             }],
         execute: function() {
             UserDetail = (function () {
-                function UserDetail(_orderService, _userService, myService, _routeParams, _router) {
+                function UserDetail(_orderService, _userService, _routeParams, _router) {
                     this._orderService = _orderService;
                     this._userService = _userService;
-                    this.myService = myService;
                     this._routeParams = _routeParams;
                     this._router = _router;
                     this.rows = [];
@@ -76,8 +75,8 @@ System.register(['angular2/core', 'angular2/common', 'ng2-table/ng2-table', 'ng2
                         sorting: false,
                         filtering: false
                     };
-                    this.tenantId = this.myService.getTenantId();
                     this.user = new user_1.User('', '', '', '', '', '', '', '', '', '', '');
+                    this.orderFilter = new orderFilter_1.OrderFilter();
                     this.data = [];
                 }
                 UserDetail.prototype.goBack = function () {
@@ -85,11 +84,13 @@ System.register(['angular2/core', 'angular2/common', 'ng2-table/ng2-table', 'ng2
                 };
                 UserDetail.prototype.ngOnInit = function () {
                     this.getUserDetails(this._routeParams.get('userId'));
-                    this.getOrdersForUserAndTenant(this.tenantId, this._routeParams.get('userId'));
+                    this.getOrdersForUserAndTenant(this._routeParams.get('userId'));
                 };
-                UserDetail.prototype.getOrdersForUserAndTenant = function (tenantId, orderId) {
+                UserDetail.prototype.getOrdersForUserAndTenant = function (userId) {
                     var _this = this;
-                    return this._orderService.getOrderList(tenantId, orderId)
+                    this.orderFilter.setStatus(null);
+                    this.orderFilter.setUserId(userId);
+                    return this._orderService.getOrderList(this.orderFilter)
                         .subscribe(function (response) {
                         _this.data = response;
                         _this.length = _this.data.length;
@@ -179,7 +180,7 @@ System.register(['angular2/core', 'angular2/common', 'ng2-table/ng2-table', 'ng2
                         templateUrl: 'app/components/userDetail/userDetail.component.html',
                         directives: [header_1.WrapperCmp, ng2_table_1.NG_TABLE_DIRECTIVES, common_1.NgClass, common_1.NgIf, common_1.CORE_DIRECTIVES, common_1.FORM_DIRECTIVES, ng2_bootstrap_1.PAGINATION_DIRECTIVES]
                     }), 
-                    __metadata('design:paramtypes', [order_service_1.OrderService, user_service_1.UserService, resources_1.MyResourcesService, router_2.RouteParams, router_1.Router])
+                    __metadata('design:paramtypes', [order_service_1.OrderService, user_service_1.UserService, router_2.RouteParams, router_1.Router])
                 ], UserDetail);
                 return UserDetail;
             }());

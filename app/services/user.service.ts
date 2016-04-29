@@ -6,6 +6,8 @@ import 'rxjs/add/operator/map';
 import 'rxjs/Rx';
 import {MyResourcesService} from "../resources";
 import {User} from "../data/user";
+import {OrderFilter} from "../data/orderFilter";
+import {UserFilter} from "../data/userFilter";
 
 
 
@@ -29,12 +31,13 @@ export class UserService {
          .catch(this.handleError);*/
     }
 
-    public getUsersForTenant(tenantId: string){
+    public getUsers(userFilter: UserFilter){
 
+        let body = JSON.stringify({ tenantId: this.myService.getTenantId(), status: userFilter.getStatus() });
         let headers = new Headers({ 'Content-Type': 'application/json' , 'x-auth-token': localStorage.getItem('id_token')});
         let options = new RequestOptions({ headers: headers });
 
-        return this.http.post(this.myService.getRestEndpoint() + 'user/list',tenantId,options)
+        return this.http.post(this.myService.getRestEndpoint() + 'user/list',body,options)
             .map(res => <User[]> res.json());
     }
 
@@ -54,6 +57,16 @@ export class UserService {
         let options = new RequestOptions({ headers: headers });
 
         return this.http.post(this.myService.getRestEndpoint() + 'user/changestatus',body,options);
+    }
+
+    public countByStatus(userStatus: string){
+
+        let body = JSON.stringify({ userId: null, status: userStatus });
+        let headers = new Headers({ 'Content-Type': 'application/json' , 'x-auth-token': localStorage.getItem('id_token')});
+        let options = new RequestOptions({ headers: headers });
+
+        return this.http.post(this.myService.getRestEndpoint() + 'user/countstatus',body,options)
+            .map(res => <number> res.json());
     }
 
     private handleError (error: any) {

@@ -1,4 +1,4 @@
-System.register(['angular2/core', 'angular2/common', "angular2/router", 'ng2-table/ng2-table', 'ng2-bootstrap/ng2-bootstrap', "../header/header", "../../resources", "../../services/item.service", "./columnButtonItem"], function(exports_1, context_1) {
+System.register(['angular2/core', 'angular2/common', "angular2/router", 'ng2-table/ng2-table', 'ng2-bootstrap/ng2-bootstrap', "../header/header", "../../services/item.service", "./columnButtonItem"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['angular2/core', 'angular2/common', "angular2/router", 'ng2-tab
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, common_1, router_1, ng2_table_1, ng2_bootstrap_1, header_1, resources_1, item_service_1, router_2, router_3, columnButtonItem_1;
+    var core_1, common_1, router_1, ng2_table_1, ng2_bootstrap_1, header_1, item_service_1, router_2, router_3, columnButtonItem_1;
     var ItemList;
     return {
         setters:[
@@ -34,9 +34,6 @@ System.register(['angular2/core', 'angular2/common', "angular2/router", 'ng2-tab
             function (header_1_1) {
                 header_1 = header_1_1;
             },
-            function (resources_1_1) {
-                resources_1 = resources_1_1;
-            },
             function (item_service_1_1) {
                 item_service_1 = item_service_1_1;
             },
@@ -45,9 +42,8 @@ System.register(['angular2/core', 'angular2/common', "angular2/router", 'ng2-tab
             }],
         execute: function() {
             ItemList = (function () {
-                function ItemList(_itemService, myService, _routeParams, _router) {
+                function ItemList(_itemService, _routeParams, _router) {
                     this._itemService = _itemService;
-                    this.myService = myService;
                     this._routeParams = _routeParams;
                     this._router = _router;
                     this.rows = [];
@@ -67,18 +63,17 @@ System.register(['angular2/core', 'angular2/common', "angular2/router", 'ng2-tab
                         sorting: false,
                         filtering: { filterString: '', columnName: 'name' }
                     };
-                    this.tenantId = this.myService.getTenantId();
                     this.data = [];
                 }
                 ItemList.prototype.ngOnInit = function () {
-                    this.getItemsForCategory(this.tenantId, this._routeParams.get('categoryId'));
+                    this.getItemsForCategory(this._routeParams.get('categoryId'));
                 };
                 ItemList.prototype.goBack = function () {
                     window.history.back();
                 };
-                ItemList.prototype.getItemsForCategory = function (tenantId, categoryId) {
+                ItemList.prototype.getItemsForCategory = function (categoryId) {
                     var _this = this;
-                    return this._itemService.getItemList(tenantId, categoryId)
+                    return this._itemService.getItemList(categoryId)
                         .subscribe(function (response) {
                         _this.data = response;
                         _this.categoryName = _this.data[0].categoryName;
@@ -155,7 +150,7 @@ System.register(['angular2/core', 'angular2/common', "angular2/router", 'ng2-tab
                         templateUrl: 'app/components/itemList/itemList.component.html',
                         directives: [header_1.WrapperCmp, ng2_table_1.NG_TABLE_DIRECTIVES, common_1.NgClass, common_1.NgIf, common_1.CORE_DIRECTIVES, common_1.FORM_DIRECTIVES, ng2_bootstrap_1.PAGINATION_DIRECTIVES, router_2.ROUTER_DIRECTIVES]
                     }), 
-                    __metadata('design:paramtypes', [item_service_1.ItemService, resources_1.MyResourcesService, router_3.RouteParams, router_1.Router])
+                    __metadata('design:paramtypes', [item_service_1.ItemService, router_3.RouteParams, router_1.Router])
                 ], ItemList);
                 return ItemList;
             }());

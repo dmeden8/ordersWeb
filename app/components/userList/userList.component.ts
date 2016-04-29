@@ -14,6 +14,7 @@ import {OrderService} from "../../services/order.service";
 import {User} from "../../data/user";
 import {ColumnButtonUser} from "./columnButtonUser";
 import {ColumnStatusUser} from "./columnStatusUser";
+import {UserFilter} from "../../data/userFilter";
 
 
 @Component({
@@ -44,9 +45,8 @@ export class UserList implements OnInit {
 
 
     public data: any;
-    tenantId = this.myService.getTenantId();
 
-
+    userFilter = new UserFilter();
 
     constructor(private _userService: UserService,
                 private myService:MyResourcesService,
@@ -56,17 +56,23 @@ export class UserList implements OnInit {
     }
 
     ngOnInit() {
-        this.getUsersForTenant(this.tenantId);
+        this.getUsers();
     }
 
     refresh() {
-        this.getUsersForTenant(this.tenantId);
+        this.getUsers();
         let link = ['Users'];
         this._router.navigate(link);
     }
 
-    getUsersForTenant(tenantId: string) {
-         this.getUsersForTenantInterval(tenantId)
+    filterByStatus(userStatus: string) {
+        this.getUsersForStatus(userStatus);
+        let link = ['Users'];
+        this._router.navigate(link);
+    }
+
+    getUsers() {
+         this.getUsersInterval()
             .subscribe(
                 (response) => {
                     this.data = response;
@@ -77,12 +83,30 @@ export class UserList implements OnInit {
             );
     }
 
-    getUsersForTenantInterval(tenantId: string) {
+    getUsersForStatus(userStatus: string) {
+
+        this.userFilter.setStatus(userStatus);
+
+        return this._userService.getUsers(this.userFilter)
+            .subscribe(
+                (response) => {
+                    this.data = response;
+                    this.length = this.data.length;
+                    this.onChangeTableInitial(this.config, null);
+                },
+                (err) => this._router.navigate(['Login'])
+            );
+    }
+
+    getUsersInterval() {
+
+        this.userFilter.setStatus(null);
+
         return Observable
             .interval(this.myService.getUsersIntervalRefresh())
             .startWith(0)
             .switchMap(() => {
-                return this._userService.getUsersForTenant(tenantId);
+                return this._userService.getUsers(this.userFilter);
             });
 
     }

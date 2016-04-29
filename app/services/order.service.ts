@@ -9,6 +9,7 @@ import {Order} from "../data/order";
 import {OrderItem} from "../data/orderItem";
 import {User} from "../data/user";
 import {OrderStatus} from "../data/orderStatus";
+import {OrderFilter} from "../data/orderFilter";
 
 
 
@@ -17,9 +18,9 @@ export class OrderService {
 
     constructor (private http: Http, private myService:MyResourcesService) {}
 
-    public getOrderList(tenantId: string, userId: string){
+    public getOrderList(orderFilter: OrderFilter){
 
-        let body = JSON.stringify({ userId: userId, tenantId: tenantId });
+        let body = JSON.stringify({ userId: orderFilter.getUserId(), tenantId: this.myService.getTenantId(), status: orderFilter.getStatus() });
         let headers = new Headers({ 'Content-Type': 'application/json' , 'x-auth-token': localStorage.getItem('id_token')});
         let options = new RequestOptions({ headers: headers });
 
@@ -55,15 +56,16 @@ export class OrderService {
         return this.http.post(this.myService.getRestEndpoint() + 'order/changestatus',body,options);
     }
 
-    public getOrdersForStatus(tenantId: string, orderStatus: string){
+    public countByStatus(orderStatus: string){
 
-        let body = JSON.stringify({ tenantId: tenantId, status: orderStatus });
+        let body = JSON.stringify({ orderId: null, status: orderStatus });
         let headers = new Headers({ 'Content-Type': 'application/json' , 'x-auth-token': localStorage.getItem('id_token')});
         let options = new RequestOptions({ headers: headers });
 
-        return this.http.post(this.myService.getRestEndpoint() + 'order/listByStatus',body,options)
-            .map(res => res.json());;
+        return this.http.post(this.myService.getRestEndpoint() + 'order/countstatus',body,options)
+            .map(res => <number> res.json());
     }
+
 
     private handleError (error: any) {
         console.error(error);

@@ -104,7 +104,6 @@ export class OrderDetail implements OnInit {
         console.log(page.page);
         console.log(page.itemsPerPage);
 
-
         return data.slice(start, end);
     }
 

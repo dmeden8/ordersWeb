@@ -43,14 +43,9 @@ export class ItemList implements OnInit {
 
 
     public data: Item[];
-    tenantId = this.myService.getTenantId();
     categoryName: string;
 
-
-
-
     constructor(private _itemService: ItemService,
-                private myService:MyResourcesService,
                 private _routeParams: RouteParams,
                 private _router: Router) {
 
@@ -58,15 +53,15 @@ export class ItemList implements OnInit {
     }
 
     ngOnInit() {
-        this.getItemsForCategory(this.tenantId, this._routeParams.get('categoryId'));
+        this.getItemsForCategory(this._routeParams.get('categoryId'));
     }
 
     goBack() {
         window.history.back();
     }
 
-    getItemsForCategory(tenantId: string, categoryId: string) {
-         return this._itemService.getItemList(tenantId, categoryId)
+    getItemsForCategory(categoryId: string) {
+         return this._itemService.getItemList(categoryId)
             .subscribe(
                 (response) => {
                     this.data = response;

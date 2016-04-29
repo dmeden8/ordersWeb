@@ -47,7 +47,6 @@ export class ItemCategory implements OnInit {
 
     public data: any;
     public childCategories: Category[];
-    tenantId = this.myService.getTenantId();
 
     categoryId = this._routeParams.get('categoryId');
 
@@ -55,7 +54,6 @@ export class ItemCategory implements OnInit {
 
     constructor(private _itemService: ItemService,
                 private _categoryService: CategoryService,
-                private myService:MyResourcesService,
                 private _routeParams: RouteParams,
                 private _router: Router) {
 
@@ -63,8 +61,8 @@ export class ItemCategory implements OnInit {
     }
 
     ngOnInit() {
-        this.getItemsForTenant(this.tenantId);
-        this.getChildCategories(this._routeParams.get('categoryId'), this.tenantId);
+        this.getItems();
+        this.getChildCategories(this._routeParams.get('categoryId'));
     }
 
     goBack() {
@@ -84,8 +82,8 @@ export class ItemCategory implements OnInit {
 
     }
 
-    getItemsForTenant(tenantId: string) {
-         return this._itemService.getItemList(tenantId, null)
+    getItems() {
+         return this._itemService.getItemList(null)
             .subscribe(
                 (response) => {
                     this.data = response;
@@ -96,8 +94,8 @@ export class ItemCategory implements OnInit {
             );
     }
 
-    getChildCategories(categoryId: string, tenantId: string) {
-        return this._categoryService.getChildCategories(categoryId, tenantId)
+    getChildCategories(categoryId: string) {
+        return this._categoryService.getChildCategories(categoryId)
             .subscribe(
                 (response) => {
                     this.childCategories = response;

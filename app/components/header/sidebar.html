@@ -1,9 +1,11 @@
 <ul class="nav in" id="side-menu">
   <li>
-    <a [routerLink]="['Orders']"><i class="fa fa-envelope-o fa-fw"></i> Narudžbe</a>
+    <a *ngIf="numOfNewOrders == 0" [routerLink]="['Orders']"><i class="fa fa-envelope-o fa-fw"></i> Narudžbe</a>
+    <a *ngIf="numOfNewOrders != 0" [routerLink]="['Orders']"><i class="fa fa-envelope-o fa-fw"></i> Narudžbe ({{numOfNewOrders}})</a>
   </li>
   <li>
-    <a [routerLink]="['Users']"><i class="fa fa-user fa-fw"></i> Korisnici</a>
+    <a *ngIf="numOfNewUsers == 0" [routerLink]="['Users']"><i class="fa fa-envelope-o fa-fw"></i> Korisnici</a>
+    <a *ngIf="numOfNewUsers != 0" [routerLink]="['Users']"><i class="fa fa-envelope-o fa-fw"></i> Korisnici ({{numOfNewUsers}})</a>
   </li>
   <li>
     <a [routerLink]="['ItemCategory', { categoryId: 1}]"><i class="fa fa-book fa-fw"></i> Proizvodi</a>

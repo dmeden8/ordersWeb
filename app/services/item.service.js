@@ -32,8 +32,8 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/add/operator/toPromise'
                     this.http = http;
                     this.myService = myService;
                 }
-                ItemService.prototype.getItemList = function (tenantId, categoryId) {
-                    var body = JSON.stringify({ categoryId: categoryId, tenantId: tenantId });
+                ItemService.prototype.getItemList = function (categoryId) {
+                    var body = JSON.stringify({ categoryId: categoryId, tenantId: this.myService.getTenantId() });
                     var headers = new http_1.Headers({ 'Content-Type': 'application/json', 'x-auth-token': localStorage.getItem('id_token') });
                     var options = new http_1.RequestOptions({ headers: headers });
                     return this.http.post(this.myService.getRestEndpoint() + 'item/list', body, options)

@@ -60,9 +60,11 @@ System.register(['angular2/core', 'angular2/http', 'angular2/router', "./service
                 itemDetail_component_1 = itemDetail_component_1_1;
             }],
         execute: function() {
+            //import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
             AppComponent = (function () {
                 function AppComponent() {
                     this.title = 'Narudžbe Grga';
+                    this.userLang = 'en';
                 }
                 AppComponent = __decorate([
                     core_1.Component({
