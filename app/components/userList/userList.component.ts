@@ -147,7 +147,7 @@ export class UserList implements OnInit {
         }
 
         let filteredData:any = data.filter((item:any) =>
-            item[config.filtering.columnName].match(this.config.filtering.filterString));
+            item[config.filtering.columnName].toLowerCase().match(this.config.filtering.filterString.toLowerCase()));
 
         return filteredData;
     }

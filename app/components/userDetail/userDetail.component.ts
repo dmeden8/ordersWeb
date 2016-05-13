@@ -139,7 +139,7 @@ export class UserDetail implements OnInit {
         }
 
         let filteredData:OrderItem[] = data.filter((item:OrderItem) =>
-            item[config.filtering.columnName].match(this.config.filtering.filterString));
+            item[config.filtering.columnName].toLowerCase().match(this.config.filtering.filterString.toLowerCase()));
 
         return filteredData;
     }

@@ -114,7 +114,7 @@ System.register(['angular2/core', 'angular2/common', "angular2/router", 'ng2-tab
                         return data;
                     }
                     var filteredData = data.filter(function (item) {
-                        return item[config.filtering.columnName].match(_this.config.filtering.filterString);
+                        return item[config.filtering.columnName].toLowerCase().match(_this.config.filtering.filterString.toLowerCase());
                     });
                     return filteredData;
                 };
