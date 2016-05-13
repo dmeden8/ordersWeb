@@ -6,11 +6,12 @@ System.register([], function(exports_1, context_1) {
         setters:[],
         execute: function() {
             Order = (function () {
-                function Order(creationTime, status, totalPrice, userName, id) {
+                function Order(creationTime, status, totalPrice, userName, paymentType, id) {
                     this.creationTime = creationTime;
                     this.status = status;
                     this.totalPrice = totalPrice;
                     this.userName = userName;
+                    this.paymentType = paymentType;
                     this.id = id;
                 }
                 return Order;

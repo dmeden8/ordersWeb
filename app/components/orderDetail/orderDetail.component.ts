@@ -44,7 +44,7 @@ export class OrderDetail implements OnInit {
 
 
     public data: OrderItem[];
-    public order = new Order('','','','','');
+    public order = new Order('','','','','','');
 
     constructor(private _orderService: OrderService,
                 private _routeParams: RouteParams,

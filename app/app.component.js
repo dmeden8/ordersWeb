@@ -1,4 +1,4 @@
-System.register(['angular2/core', 'angular2/http', 'angular2/router', "./services/user.service", "./services/order.service", "./components/orderList/orderList.component", "./components/userList/userList.component", "./components/itemList/itemList.component", './components/login/login.component', "./services/item.service", "./components/orderDetail/orderDetail.component", "./components/userDetail/userDetail.component", "./components/itemCategory/itemCategory.component", "./services/category.service", "./components/itemDetail/itemDetail.component"], function(exports_1, context_1) {
+System.register(['angular2/core', 'angular2/http', 'angular2/router', "./services/user.service", "./services/order.service", "./components/orderList/orderList.component", "./components/userList/userList.component", "./components/itemList/itemList.component", './components/login/login.component', "./services/item.service", "./components/orderDetail/orderDetail.component", "./components/userDetail/userDetail.component", "./components/itemCategory/itemCategory.component", "./services/category.service", "./components/itemDetail/itemDetail.component", "./components/discountItemList/discountItemList.component"], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['angular2/core', 'angular2/http', 'angular2/router', "./service
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, http_1, router_1, user_service_1, order_service_1, orderList_component_1, userList_component_1, itemList_component_1, login_component_1, item_service_1, orderDetail_component_1, userDetail_component_1, itemCategory_component_1, category_service_1, itemDetail_component_1;
+    var core_1, http_1, router_1, user_service_1, order_service_1, orderList_component_1, userList_component_1, itemList_component_1, login_component_1, item_service_1, orderDetail_component_1, userDetail_component_1, itemCategory_component_1, category_service_1, itemDetail_component_1, discountItemList_component_1;
     var AppComponent;
     return {
         setters:[
@@ -58,6 +58,9 @@ System.register(['angular2/core', 'angular2/http', 'angular2/router', "./service
             },
             function (itemDetail_component_1_1) {
                 itemDetail_component_1 = itemDetail_component_1_1;
+            },
+            function (discountItemList_component_1_1) {
+                discountItemList_component_1 = discountItemList_component_1_1;
             }],
         execute: function() {
             //import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
@@ -121,6 +124,11 @@ System.register(['angular2/core', 'angular2/http', 'angular2/router', "./service
                             path: '/category/:categoryId',
                             name: 'ItemCategory',
                             component: itemCategory_component_1.ItemCategory
+                        },
+                        {
+                            path: '/discount',
+                            name: 'DiscountItems',
+                            component: discountItemList_component_1.DiscountItemList
                         },
                     ]), 
                     __metadata('design:paramtypes', [])

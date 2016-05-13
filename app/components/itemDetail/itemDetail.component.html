@@ -3,7 +3,7 @@
 <wrapper>
     <div class="row">
         <div class="col-lg-12">
-            <h1 class="page-header">{{item.name}}</h1>
+            <h1 class="page-header">{{item.name}} <img *ngIf="item.hasDiscount" src="../../../images/akcija.jpg" style="width:40px;height:40px;"></h1>
         </div>
         <!-- /.col-lg-12 -->
     </div>
@@ -26,12 +26,40 @@
                                 <p><b>Cijena VPC:</b> {{item.vpcPrice}}</p>
                                 <p><b>ID:</b> {{item.externalId}}</p>
                                 <p><b>Mjera:</b> {{item.measure}}</p>
+                                <p *ngIf="item.hasDiscount"><b>Popust:</b> {{item.discount}}</p>
+
+
+                                <div *ngIf="!item.hasDiscount">
+
+                                    <br>
+
+                                    <h4 class="panel-title">
+                                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+                                            <button class="btn btn-warning btn-xs">Dodaj popust</button>
+                                        </a>
+                                    </h4>
+                                    <div id="collapseOne" class="panel-collapse collapse">
+                                        <div class="panel-body">
+                                            <form role="form" (ngSubmit)="onSubmit()" #heroForm="ngForm">
+                                                <b>Popust:</b>
+                                                <input type="number" min="0" max="100" step="5"
+                                                       [(ngModel)]="discount" ngControl="discount" #name="ngForm" id="discount">
+                                                %&nbsp;&nbsp;
+                                                <button type="submit" class="btn btn-success btn-bitbucket"><i class="fa fa-check"></i></button>
+                                            </form>
+                                        </div>
+                                    </div>
+
+                                </div>
+
                             </div>
+
                         </div>
 
                     </div>
 
                     <button (click)="goBack()" class="btn btn-primary">Natrag</button>
+                    <button *ngIf="item.hasDiscount" (click)="changeItemDiscount('0')" class="btn btn-danger">Ukloni popust</button>
 
                 </div>
                 <!-- /.panel-body -->

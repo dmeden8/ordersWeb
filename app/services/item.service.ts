@@ -34,6 +34,24 @@ export class ItemService {
             .map(res => <Item> res.json());
     }
 
+    public getDiscountItems(){
+
+        let headers = new Headers({ 'Content-Type': 'application/json' , 'x-auth-token': localStorage.getItem('id_token')});
+        let options = new RequestOptions({ headers: headers });
+
+        return this.http.post(this.myService.getRestEndpoint() + 'item/discountlist',this.myService.getTenantId(),options)
+            .map(res => <Item[]> res.json());
+    }
+
+    public changeItemDiscount(discount: string, itemId: string){
+
+        let body = JSON.stringify({ discount: discount, itemId: itemId });
+        let headers = new Headers({ 'Content-Type': 'application/json' , 'x-auth-token': localStorage.getItem('id_token')});
+        let options = new RequestOptions({ headers: headers });
+
+        return this.http.post(this.myService.getRestEndpoint() + 'item/discount',body,options);
+    }
+
     private handleError (error: any) {
         console.error(error);
         return Promise.reject(error.message || error.json().error || 'Server error');

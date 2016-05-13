@@ -4,6 +4,7 @@ export class Order {
         public status: string,
         public totalPrice: string,
         public userName: string,
+        public paymentType: string,
         public id: string
     ) {  }
 }

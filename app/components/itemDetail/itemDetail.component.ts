@@ -1,17 +1,12 @@
-import {Component, EventEmitter, OnInit} from 'angular2/core';
+import {Component, OnInit} from 'angular2/core';
 import {CORE_DIRECTIVES, FORM_DIRECTIVES, NgClass, NgIf} from 'angular2/common';
 
 import {NG_TABLE_DIRECTIVES} from 'ng2-table/ng2-table';
 import {PAGINATION_DIRECTIVES} from 'ng2-bootstrap/ng2-bootstrap';
 
 import {WrapperCmp} from "../header/header";
-import {OrderItem} from "../../data/orderItem";
 import {Router} from "angular2/router";
-import {MyResourcesService} from "../../resources";
-import {OrderService} from "../../services/order.service";
-import {Observable} from "rxjs/Observable";
 import {RouteParams} from "angular2/router";
-import {Order} from "../../data/order";
 import {ItemService} from "../../services/item.service";
 import {Item} from "../../data/item";
 
@@ -24,7 +19,8 @@ import {Item} from "../../data/item";
 export class ItemDetail implements OnInit {
 
 
-    public item = new Item('','','','','','','');
+    public item = new Item('','','','','','','','',false);
+    discount = '0';
 
     constructor(private _itemService: ItemService,
                 private _routeParams: RouteParams,
@@ -47,6 +43,20 @@ export class ItemDetail implements OnInit {
                 },
                 (err) => this._router.navigate(['Login'])
             );
+    }
+
+    changeItemDiscount(discount: string) {
+        return this._itemService.changeItemDiscount(discount, this._routeParams.get('itemId'))
+            .subscribe(
+                (response) => {
+                    this.getItemDetails(this._routeParams.get('itemId'));
+                },
+                (err) => this._router.navigate(['Login'])
+            );
+    }
+
+    onSubmit() {
+        this.changeItemDiscount(this.discount);
     }
 
 }

@@ -45,6 +45,18 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/add/operator/toPromise'
                     return this.http.post(this.myService.getRestEndpoint() + 'item/details', itemId, options)
                         .map(function (res) { return res.json(); });
                 };
+                ItemService.prototype.getDiscountItems = function () {
+                    var headers = new http_1.Headers({ 'Content-Type': 'application/json', 'x-auth-token': localStorage.getItem('id_token') });
+                    var options = new http_1.RequestOptions({ headers: headers });
+                    return this.http.post(this.myService.getRestEndpoint() + 'item/discountlist', this.myService.getTenantId(), options)
+                        .map(function (res) { return res.json(); });
+                };
+                ItemService.prototype.changeItemDiscount = function (discount, itemId) {
+                    var body = JSON.stringify({ discount: discount, itemId: itemId });
+                    var headers = new http_1.Headers({ 'Content-Type': 'application/json', 'x-auth-token': localStorage.getItem('id_token') });
+                    var options = new http_1.RequestOptions({ headers: headers });
+                    return this.http.post(this.myService.getRestEndpoint() + 'item/discount', body, options);
+                };
                 ItemService.prototype.handleError = function (error) {
                     console.error(error);
                     return Promise.reject(error.message || error.json().error || 'Server error');

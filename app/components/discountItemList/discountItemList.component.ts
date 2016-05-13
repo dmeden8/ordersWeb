@@ -9,20 +9,20 @@ import {WrapperCmp} from "../header/header";
 import {ItemService} from "../../services/item.service";
 import {Item} from "../../data/item";
 import {ROUTER_DIRECTIVES} from "angular2/router";
-import {RouteParams} from "angular2/router";
-import {ColumnButtonItem} from "./columnButtonItem";
+import {ColumnButtonItem} from "../itemList/columnButtonItem";
 
 
 
 @Component({
     selector: 'item-list',
-    templateUrl: 'app/components/itemList/itemList.component.html',
+    templateUrl: 'app/components/discountItemList/discountItemList.component.html',
     directives: [WrapperCmp,NG_TABLE_DIRECTIVES, NgClass, NgIf, CORE_DIRECTIVES, FORM_DIRECTIVES, PAGINATION_DIRECTIVES, ROUTER_DIRECTIVES]
 })
-export class ItemList implements OnInit {
+export class DiscountItemList implements OnInit {
     public rows:Array<any> = [];
     public columns:Array<any> = [
         {title: 'Naziv proizvoda', name: 'name'},
+        {title: 'Popust', name: 'discount'},
         {title: 'Mjera', name: 'measure'},
         {title: 'Cijena MPC', name: 'mpcPrice'},
         {title: 'Detalji', name: 'id', custom: ColumnButtonItem},
@@ -41,29 +41,26 @@ export class ItemList implements OnInit {
 
 
     public data: Item[];
-    categoryName: string;
 
     constructor(private _itemService: ItemService,
-                private _routeParams: RouteParams,
                 private _router: Router) {
 
         this.data = [];
     }
 
     ngOnInit() {
-        this.getItemsForCategory(this._routeParams.get('categoryId'));
+        this.getDiscountItems();
     }
 
     goBack() {
         window.history.back();
     }
 
-    getItemsForCategory(categoryId: string) {
-         return this._itemService.getItemList(categoryId)
+    getDiscountItems() {
+        return this._itemService.getDiscountItems()
             .subscribe(
                 (response) => {
                     this.data = response;
-                    this.categoryName = this.data[0].categoryName;
                     this.length = this.data.length;
                     this.onChangeTableInitial(this.config, null);
                 },

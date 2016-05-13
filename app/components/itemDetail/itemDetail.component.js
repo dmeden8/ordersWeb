@@ -45,7 +45,8 @@ System.register(['angular2/core', 'angular2/common', 'ng2-table/ng2-table', 'ng2
                     this._itemService = _itemService;
                     this._routeParams = _routeParams;
                     this._router = _router;
-                    this.item = new item_1.Item('', '', '', '', '', '', '');
+                    this.item = new item_1.Item('', '', '', '', '', '', '', '', false);
+                    this.discount = '0';
                 }
                 ItemDetail.prototype.goBack = function () {
                     window.history.back();
@@ -59,6 +60,16 @@ System.register(['angular2/core', 'angular2/common', 'ng2-table/ng2-table', 'ng2
                         .subscribe(function (response) {
                         _this.item = response;
                     }, function (err) { return _this._router.navigate(['Login']); });
+                };
+                ItemDetail.prototype.changeItemDiscount = function (discount) {
+                    var _this = this;
+                    return this._itemService.changeItemDiscount(discount, this._routeParams.get('itemId'))
+                        .subscribe(function (response) {
+                        _this.getItemDetails(_this._routeParams.get('itemId'));
+                    }, function (err) { return _this._router.navigate(['Login']); });
+                };
+                ItemDetail.prototype.onSubmit = function () {
+                    this.changeItemDiscount(this.discount);
                 };
                 ItemDetail = __decorate([
                     core_1.Component({

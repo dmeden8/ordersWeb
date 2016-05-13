@@ -14,6 +14,7 @@ import {UserDetail} from "./components/userDetail/userDetail.component";
 import {ItemCategory} from "./components/itemCategory/itemCategory.component";
 import {CategoryService} from "./services/category.service";
 import {ItemDetail} from "./components/itemDetail/itemDetail.component";
+import {DiscountItemList} from "./components/discountItemList/discountItemList.component";
 //import {TranslateService, TranslatePipe} from 'ng2-translate/ng2-translate';
 
 @Component({
@@ -75,6 +76,11 @@ import {ItemDetail} from "./components/itemDetail/itemDetail.component";
         path: '/category/:categoryId',
         name: 'ItemCategory',
         component: ItemCategory
+    },
+    {
+        path: '/discount',
+        name: 'DiscountItems',
+        component: DiscountItemList
     },
 
 ])

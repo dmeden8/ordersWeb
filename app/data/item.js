@@ -6,7 +6,7 @@ System.register([], function(exports_1, context_1) {
         setters:[],
         execute: function() {
             Item = (function () {
-                function Item(name, mpcPrice, vpcPrice, id, externalId, measure, categoryName) {
+                function Item(name, mpcPrice, vpcPrice, id, externalId, measure, categoryName, discount, hasDiscount) {
                     this.name = name;
                     this.mpcPrice = mpcPrice;
                     this.vpcPrice = vpcPrice;
@@ -14,6 +14,8 @@ System.register([], function(exports_1, context_1) {
                     this.externalId = externalId;
                     this.measure = measure;
                     this.categoryName = categoryName;
+                    this.discount = discount;
+                    this.hasDiscount = hasDiscount;
                 }
                 return Item;
             }());

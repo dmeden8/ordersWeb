@@ -1,4 +1,6 @@
-System.register(['angular2/core', 'angular2/common', 'angular2/router', "../../resources", "rxjs/Observable", "../../services/order.service", "../../services/user.service"], function(exports_1) {
+System.register(['angular2/core', 'angular2/common', 'angular2/router', "../../resources", "rxjs/Observable", "../../services/order.service", "../../services/user.service"], function(exports_1, context_1) {
+    "use strict";
+    var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -49,7 +51,7 @@ System.register(['angular2/core', 'angular2/common', 'angular2/router', "../../r
                     __metadata('design:paramtypes', [])
                 ], HeaderNotification);
                 return HeaderNotification;
-            })();
+            }());
             exports_1("HeaderNotification", HeaderNotification);
             SidebarSearch = (function () {
                 function SidebarSearch() {
@@ -63,7 +65,7 @@ System.register(['angular2/core', 'angular2/common', 'angular2/router', "../../r
                     __metadata('design:paramtypes', [])
                 ], SidebarSearch);
                 return SidebarSearch;
-            })();
+            }());
             exports_1("SidebarSearch", SidebarSearch);
             Sidebar = (function () {
                 function Sidebar(myService, _orderService, _userService) {
@@ -117,7 +119,7 @@ System.register(['angular2/core', 'angular2/common', 'angular2/router', "../../r
                     __metadata('design:paramtypes', [resources_1.MyResourcesService, order_service_1.OrderService, user_service_1.UserService])
                 ], Sidebar);
                 return Sidebar;
-            })();
+            }());
             exports_1("Sidebar", Sidebar);
             Header = (function () {
                 function Header() {
@@ -135,7 +137,7 @@ System.register(['angular2/core', 'angular2/common', 'angular2/router', "../../r
                     __metadata('design:paramtypes', [])
                 ], Header);
                 return Header;
-            })();
+            }());
             exports_1("Header", Header);
             WrapperCmp = (function () {
                 function WrapperCmp() {
@@ -149,7 +151,7 @@ System.register(['angular2/core', 'angular2/common', 'angular2/router', "../../r
                     __metadata('design:paramtypes', [])
                 ], WrapperCmp);
                 return WrapperCmp;
-            })();
+            }());
             exports_1("WrapperCmp", WrapperCmp);
         }
     }

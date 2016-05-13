@@ -6,6 +6,8 @@ export class Item {
         public id: string,
         public externalId: string,
         public measure: string,
-        public categoryName: string
+        public categoryName: string,
+        public discount: string,
+        public hasDiscount: boolean
     ) {  }
 }
